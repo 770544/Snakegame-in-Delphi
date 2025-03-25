@@ -34,6 +34,8 @@ type
     SnakeHead: TShape;
     Apple: TShape;
     Timer2: TTimer;
+    HighScoreLabel: TLabel;
+    HighScoreLabel2: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
@@ -60,8 +62,9 @@ var
   arrX : Array [0..1000] of Integer;
   arrY : Array [0..1000] of Integer;
   arrS : Array [0..1000] of TShape;
-  X : integer;
-  Y : integer;
+  BX : integer;
+  BY : integer;
+  Turn : Boolean;
 implementation
 
 {$R *.dfm}
@@ -72,8 +75,8 @@ var
 begin
   NewBody := TShape.Create(Parent);
   NewBody.Parent := Parent;  // Parent가 TWinControl이어야 합니다.
-  NewBody.Left := X;
-  Newbody.Top := Y;
+  NewBody.Left := BX;
+  Newbody.Top := BY;
   Newbody.Brush.Color := clWhite;
   arrS[SnakeLength] := NewBody;
   arrS[SnakeLength].Shape := SnakeHead.Shape;
@@ -86,6 +89,7 @@ begin
   SnakeLength := 0;
   Score := 0;
   Direction := 'R';
+  Turn := False;
   GameOver := False;
   BorderStyle := bsDialog;
   AppleLeft := 21;
@@ -107,26 +111,38 @@ var
 begin
   if Key = VK_Left then
   begin
-    if Direction <> 'R' then
+    if (Direction <> 'R') and (Turn = False) then
+    begin
       Direction := 'L';
+      Turn := True;
+    end;
   end;
 
   if Key = VK_Right then
   begin
-    if Direction <> 'L' then
+    if (Direction <> 'L') and (Turn = False) then
+    begin
       Direction := 'R';
+      Turn := True;
+    end;
   end;
 
   if Key = VK_Up then
   begin
-    if Direction <> 'D' then
+    if (Direction <> 'D') and (Turn = False) then
+    begin
       Direction := 'U';
+      Turn := True;
+    end;
   end;
 
   if Key = VK_Down then
   begin
-    if Direction <> 'U' then
+    if (Direction <> 'U') and (Turn = False) then
+    begin
       Direction := 'D';
+      Turn := True;
+    end;
   end;
 
   if Key = Ord('R') then  // 리셋
@@ -176,9 +192,15 @@ begin
     if (SnakeHead.Left < 0) or (SnakeHead.Left > 300) or (SnakeHead.Top < 0) or (SnakeHead.Top > 240) then
     // 벽에 닿았다면
     begin
-      Timer.Enabled	:= False;
-      Timer2.Enabled := False;
+      GameOver := True;
     end;
+  end;
+
+  if GameOver = True then
+  begin
+    Timer.Enabled	:= False;
+    Timer2.Enabled := False;
+    // 대충 Ranking.txt 파일에 접근해서 텍스트를 읽고 그 뒤론 알겠지?
   end;
 end;
 
@@ -195,12 +217,14 @@ begin
       begin
         if (SnakeLength = 0) then
         begin
-          X := arrX[SnakeLength];
+          BX := arrX[SnakeLength];
           SnakeHead.Left := SnakeHead.Left + 20;
+          Turn := False;
         end else
           begin
-            X := arrX[SnakeLength];
+            BX := arrX[SnakeLength];
             MoveSnake(20, 0);
+            Turn := False;
         end;
       end;
 
@@ -208,12 +232,14 @@ begin
       begin
         if (SnakeLength = 0) then
         begin
-          X := arrX[SnakeLength];
+          BX := arrX[SnakeLength];
           SnakeHead.Left := SnakeHead.Left -20;
+          Turn := False;
         end else
         begin
-          X := arrX[SnakeLength];
+          BX := arrX[SnakeLength];
           MoveSnake(-20, 0);
+          Turn := False;
         end;
         end;
 
@@ -221,12 +247,14 @@ begin
       begin
           if (SnakeLength = 0) then
           begin
-            Y := arrY[SnakeLength];
+            BY := arrY[SnakeLength];
             SnakeHead.Top := SnakeHead.Top - 20;
+            Turn := False;
           end else
           begin
-            Y := arrY[SnakeLength];
+            BY := arrY[SnakeLength];
             MoveSnake(0, -20);
+            Turn := False;
           end;
         end;
 
@@ -234,19 +262,25 @@ begin
       begin
         if (SnakeLength = 0) then
         begin
-          Y := arrY[SnakeLength];
+          BY := arrY[SnakeLength];
           SnakeHead.Top := SnakeHead.Top + 20;
+          Turn := False;
         end else
         begin
-          Y := arrY[SnakeLength];
+          BY := arrY[SnakeLength];
           MoveSnake(0, 20);
+          Turn := False;
         end;
       end;
     end;
 
-    for I := 0 to SnakeLength do
+    if SnakeLength <> 0 then
     begin
-
+      for I := 1 to SnakeLength do
+      begin
+        if (SnakeHead.Left = arrS[i].Left) and (SnakeHead.Top = arrS[i].Top) then
+          GameOver := True;
+      end;
     end;
 
     if (SnakeHead.Left = Apple.Left) and (SnakeHead.Top = Apple.Top) then // 사과에 닿았다면
@@ -258,9 +292,6 @@ begin
       AppleLeft := (Random(15)) * 20;  // 0부터 14까지의 값, 20의 배수, 최대 280
       Randomize;
       AppleTop := (Random(13)) * 20;   // 0부터 12까지의 값, 20의 배수, 최대 240
-
-      if Timer.interval >= 160 then
-        Timer.interval := Timer.Interval - 20;
 
       Apple.Left := AppleLeft;
       Apple.Top := AppleTop;

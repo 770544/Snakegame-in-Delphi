@@ -3,11 +3,11 @@
 	<Transactions>
     <Transaction>1899-12-30 00:00:00.000.957,=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.293,=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.239,C:\Users\CODERUN\Desktop\SnakeGame\SnakeGame.dproj=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.721,C:\Users\CODERUN\Desktop\SnakeGame\Unit1.pas=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.721,C:\Users\CODERUN\Desktop\SnakeGame\Unit1.dfm=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.239,C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\Users\CODERUN\Desktop\SnakeGame\SnakeGame.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.721,C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\CODERUN\Desktop\SnakeGame\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.572,=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.301,=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.721,C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\CODERUN\Desktop\SnakeGame\Unit1.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.078,=C:\Users\CODERUN\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

@@ -51,6 +51,32 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
     end
+    object HighScoreLabel: TLabel
+      Left = 112
+      Top = 16
+      Width = 79
+      Height = 21
+      Caption = 'High Score:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
+    object HighScoreLabel2: TLabel
+      Left = 197
+      Top = 16
+      Width = 9
+      Height = 21
+      Caption = '0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+    end
   end
   object PanelPlace: TPanel
     Left = 0
@@ -62,6 +88,7 @@ object Form1: TForm1
     Color = clBlack
     ParentBackground = False
     TabOrder = 1
+    ExplicitTop = 66
     object SnakeHead: TShape
       Left = 80
       Top = 120
@@ -78,7 +105,7 @@ object Form1: TForm1
     end
   end
   object Timer: TTimer
-    Interval = 200
+    Interval = 120
     OnTimer = TimerTimer
     Left = 304
     Top = 8
