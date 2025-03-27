@@ -22,7 +22,7 @@ uses
   dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinTheBezier,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinVisualStudio2013Blue,
   dxSkinVisualStudio2013Dark, dxSkinVisualStudio2013Light, dxSkinVS2010,
-  dxSkinWhiteprint, dxSkinXmas2008Blue, cxLabel, Vcl.Menus, ShellAPI;
+  dxSkinWhiteprint, dxSkinXmas2008Blue, cxLabel, Vcl.Menus, ShellAPI, System.IOUtils;
 
 type
   TForm1 = class(TForm)
@@ -65,6 +65,10 @@ var
   BX : integer;
   BY : integer;
   Turn : Boolean;
+  Ranking : TStringList;
+  DocumentsPath : string;
+  FileName : string;
+  FilePath : string;
 implementation
 
 {$R *.dfm}
@@ -99,6 +103,19 @@ begin
   SnakeHead.Top := 120;
   Apple.Left := 200;
   Apple.Top := 120;
+
+  DocumentsPath := TPath.Combine(GetEnvironmentVariable('USERPROFILE'), 'Documents');
+  FileName := 'Ranking.txt';
+  FilePath := TPath.Combine(DocumentsPath, 'Ranking.txt');
+
+  if not FileExists(FilePath) then
+  begin
+
+  end;
+
+  Ranking := TStringList.Create;
+  Ranking.LoadFromFile(FilePath);
+  HighScoreLabel2.Caption :=  Ranking[0];
 
   SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
 end;
@@ -200,7 +217,13 @@ begin
   begin
     Timer.Enabled	:= False;
     Timer2.Enabled := False;
-    // 대충 Ranking.txt 파일에 접근해서 텍스트를 읽고 그 뒤론 알겠지?
+
+    if StrToInt(Ranking[0]) < Score then
+    begin
+      Ranking[0] := IntToStr(Score);
+      Ranking.SaveToFile(FilePath);
+      HighScoreLabel2.Caption :=  Ranking[0];
+    end;
   end;
 end;
 
@@ -289,9 +312,9 @@ begin
       ScoreLabel2.Caption := IntToStr(Score);
 
       Randomize;
-      AppleLeft := (Random(15)) * 20;  // 0부터 14까지의 값, 20의 배수, 최대 280
+      AppleLeft := (Random(15)) * 20; // 0부터 14까지의 값, 20의 배수, 최대 280
       Randomize;
-      AppleTop := (Random(13)) * 20;   // 0부터 12까지의 값, 20의 배수, 최대 240
+      AppleTop := (Random(13)) * 20; // 0부터 12까지의 값, 20의 배수, 최대 240
 
       Apple.Left := AppleLeft;
       Apple.Top := AppleTop;

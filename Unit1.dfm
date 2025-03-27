@@ -88,7 +88,6 @@ object Form1: TForm1
     Color = clBlack
     ParentBackground = False
     TabOrder = 1
-    ExplicitTop = 66
     object SnakeHead: TShape
       Left = 80
       Top = 120
