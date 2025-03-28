@@ -85,7 +85,7 @@ begin
 
   for I := 1 to SnakeLength do
   begin
-    if (arrS[i].Left = AppleLeft) and (arrS[i].Top = AppleTop) then
+    if ((arrS[i].Left = AppleLeft) and (arrS[i].Top = AppleTop)) or ((SnakeHead.Left = AppleLeft) and (SnakeHead.Top = AppleTop)) then
       ChangeAppleLocation;
   end;
 
