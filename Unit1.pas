@@ -43,6 +43,7 @@ type
     procedure Timer2Timer(Sender: TObject);
     procedure MoveSnake(X : integer; Y : integer);
     procedure CopySnake(SourceShape: TShape; Parent: TWinControl);
+    procedure ChangeAppleLocation;
   private
     { Private declarations }
   public
@@ -72,6 +73,23 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TForm1.ChangeAppleLocation;
+var
+  i : integer;
+begin
+  Randomize;
+  AppleLeft := (Random(15)) * 20; // 0부터 14까지의 값, 20의 배수, 최대 280
+  Randomize;
+  AppleTop := (Random(13)) * 20; // 0부터 12까지의 값, 20의 배수, 최대 240
+
+  for I := 1 to SnakeLength do
+  begin
+    if (arrS[i].Left = AppleLeft) and (arrS[i].Top = AppleTop) then
+      ChangeAppleLocation;
+  end;
+
+end;
 
 procedure TForm1.CopySnake(SourceShape: TShape; Parent: TWinControl);
 var
@@ -107,13 +125,14 @@ begin
   DocumentsPath := TPath.Combine(GetEnvironmentVariable('USERPROFILE'), 'Documents');
   FileName := 'Ranking.txt';
   FilePath := TPath.Combine(DocumentsPath, 'Ranking.txt');
+  Ranking := TStringList.Create;
 
   if not FileExists(FilePath) then
   begin
-
+    Ranking.Add('1');
+    Ranking.SaveToFile(FilePath)
   end;
 
-  Ranking := TStringList.Create;
   Ranking.LoadFromFile(FilePath);
   HighScoreLabel2.Caption :=  Ranking[0];
 
@@ -311,11 +330,7 @@ begin
       Score := Score + 1;
       ScoreLabel2.Caption := IntToStr(Score);
 
-      Randomize;
-      AppleLeft := (Random(15)) * 20; // 0부터 14까지의 값, 20의 배수, 최대 280
-      Randomize;
-      AppleTop := (Random(13)) * 20; // 0부터 12까지의 값, 20의 배수, 최대 240
-
+      ChangeAppleLocation;
       Apple.Left := AppleLeft;
       Apple.Top := AppleTop;
       SnakeLength := SnakeLength + 1;
